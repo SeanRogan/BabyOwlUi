@@ -42,7 +42,9 @@ with col2:
     files = get_all_files(storage_dir)
     if files is not None:
         for f in files:
-            with open(storage_dir + f, 'rb') as opened_file:
-                st.download_button(label=f'Download File: {f}', file_name=f, data=opened_file)
+            st.write(f)
+            # download files button
+            # with open(storage_dir + f, 'rb') as opened_file:
+            #     st.download_button(label=f'Download File: {f}', file_name=f, data=opened_file)
 
 

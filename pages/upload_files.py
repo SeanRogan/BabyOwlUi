@@ -11,12 +11,10 @@ st.set_page_config(
     initial_sidebar_state='auto'
 )
 
-
 def get_all_files(directory):
     return [f for f in os.listdir(directory) if os.path.isfile(os.path.join(directory, f))]
 
 
-stored_file_dir = '/stored_files'
 
 
 col1, col2 = st.columns(2)
@@ -38,11 +36,13 @@ with col1:
 
 
 with col2:
+    storage_dir = os.path.dirname(os.path.curdir) + 'stored_files/'
     st.header('Uploads')
     st.write('Your uploaded files will appear here')
-    files = get_all_files(os.path.join(os.getcwd() + stored_file_dir))
+    files = get_all_files(storage_dir)
     if files is not None:
         for f in files:
-            st.download_button(f'Download File: {f}', f)
+            with open(storage_dir + f, 'rb') as opened_file:
+                st.download_button(label=f'Download File: {f}', file_name=f, data=opened_file)
 
 

@@ -4,10 +4,12 @@ import pandas as pd
 from docx import document as docx
 from PyPDF2 import PdfReader, PdfWriter
 import os
+from io import StringIO
+
+storage_dir = os.path.dirname(os.path.curdir) + 'stored_files/'
 
 
 def read_pdf_with_pypdf2(file):
-
     reader = PdfReader(file)
     writer = PdfWriter()
     print(file.name)
@@ -16,7 +18,7 @@ def read_pdf_with_pypdf2(file):
         writer.add_page(page)
         text += page.extract_text() + ' '
 
-    output_file_path = os.path.join(os.path.dirname(os.path.curdir) + 'stored_files/' + file.name)
+    output_file_path = os.path.join(storage_dir + file.name)
     with open(output_file_path, 'wb') as file:
         writer.write(file)
     print(text)
@@ -29,13 +31,16 @@ def read_pdf(file):
         return pdf
     except RuntimeWarning as err:
         print('There was a problem reading the file' + str(err))
-
-# save file to file system, and vectorize and send to vector db
+# vectorize and send to vector db
 
 
 def read_txt_file(file):
-    return file
-    # save file to file system, and vectorize and send to vector db
+    sio = StringIO(file.getvalue().decode('utf-8'))
+    text = sio.read()
+    with open(storage_dir + file.name, 'w') as f:
+        f.write(text)
+    return text
+    # vectorize and send to vector db
 
 
 def read_docx_file(file):
@@ -53,4 +58,3 @@ def read_csv(file):
     df = pd.read_csv(file)
     pass
     # save file to file system, and vectorize and send to vector db
-

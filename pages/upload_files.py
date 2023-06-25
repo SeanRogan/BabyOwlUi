@@ -24,17 +24,17 @@ col1, col2 = st.columns(2)
 with col1:
     st.header('Upload your documents')
     st.write('support for .txt, .csv, .pdf, and .docx')
-
+    file = ''
     upload = st.file_uploader('Upload your files below', type=['pdf', 'docx', 'txt', 'csv'])
     if st.button(label='Upload', key='file_upload_btn'):
         if upload is not None:
             file_details = {'file_name': upload.name, 'file_type': upload.type, 'file_size': upload.size}
             if upload.type == 'text/plain':
-                fr.read_txt_file(str(upload))
+                file = fr.read_txt_file(upload)
             elif upload.type == 'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
-                fr.read_docx_file(upload)
+                file = fr.read_docx_file(upload)
             elif upload.type == 'application/pdf':
-                fr.read_pdf(upload)
+                file = fr.read_pdf(upload)
 
 
 with col2:

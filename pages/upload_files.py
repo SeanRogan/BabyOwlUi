@@ -11,14 +11,13 @@ st.set_page_config(
     initial_sidebar_state='auto'
 )
 
+
 def get_all_files(directory):
-    return [f for f in os.listdir(directory) if os.path.isfile(os.path.join(directory, f))]
+    return
 
 
-
-
+st.title('Give the owl something to read!')
 col1, col2 = st.columns(2)
-
 with col1:
     st.header('Upload your documents')
     st.write('support for .txt, .csv, .pdf, and .docx')
@@ -34,17 +33,13 @@ with col1:
             elif upload.type == 'application/pdf':
                 file = fr.read_pdf(upload)
 
-
 with col2:
     storage_dir = os.path.dirname(os.path.curdir) + 'stored_files/'
-    st.header('Uploads')
-    st.write('Your uploaded files will appear here')
-    files = get_all_files(storage_dir)
+    st.header('Your uploaded files will appear here')
+    files = [f for f in os.listdir(storage_dir) if os.path.isfile(os.path.join(storage_dir, f))]
     if files is not None:
         for f in files:
             st.write(f)
             # download files button
             # with open(storage_dir + f, 'rb') as opened_file:
             #     st.download_button(label=f'Download File: {f}', file_name=f, data=opened_file)
-
-

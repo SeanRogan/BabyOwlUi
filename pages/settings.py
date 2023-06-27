@@ -10,11 +10,11 @@ st.set_page_config(
 # create session state if it doesn't exist
 if 'session_state' not in st.session_state:
     st.session_state['session_state'] = {}
-# add blank serp api key to session state before user provides key.
-if 'serp_api_key' not in st.session_state:
-    st.session_state['session_state']['serp_api_key'] = ''
-if 'openai_api_key' not in st.session_state:
-    st.session_state['session_state']['openai_api_key'] = ''
+# # add blank serp api key to session state before user provides key.
+# if 'serp_api_key' not in st.session_state:
+#     st.session_state['session_state']['serp_api_key'] = ''
+# if 'openai_api_key' not in st.session_state:
+#     st.session_state['session_state']['openai_api_key'] = ''
 # --- set api keys---
 st.title("Settings")
 st.subheader("Enter your API keys and choose your language model.")

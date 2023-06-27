@@ -1,0 +1,12 @@
+bs4
+chromadb
+docx~=0.2.4
+google-search-results
+openai
+pandas~=2.0.2
+pdfplumber~=0.9.0
+pymupdf
+pypdf2~=3.0.1
+re
+requests
+streamlit~=1.23.1

@@ -84,7 +84,7 @@ def fetch_url_content(url: str):
 
 def extract_links(content: str):
     soup = BeautifulSoup(content, "html.parser")
-    links = [link.get('href') for link in soup.findAll('a', attrs={'href': re.compile("^https?://")})]
+    links = [link.get('href') for link in soup.findAll('a', attrs={'href': re.compile("^https?://.*\\.pdf$")})]
     return links
 
 

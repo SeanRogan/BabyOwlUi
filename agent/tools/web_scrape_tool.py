@@ -9,6 +9,10 @@ import logging
 logging.basicConfig(filename='web_search_log.txt', level=1)
 
 
+def scholar_search_tool(query: str, agent):
+    pass
+
+
 def web_search_tool(query: str, agent):
     search_params = {
         "engine": "google",
@@ -20,7 +24,7 @@ def web_search_tool(query: str, agent):
     search_results = search_results.get_dict()
     try:
         search_results = search_results["organic_results"]
-    except RuntimeWarning as err:
+    except KeyError as err:
         search_results = {}
     search_results = simplify_search_results(search_results)
     print("\033[90m\033[3m" + "Completed search. Now scraping results.\n" + "\033[0m")
@@ -84,6 +88,7 @@ def fetch_url_content(url: str):
 
 def extract_links(content: str):
     soup = BeautifulSoup(content, "html.parser")
+    # only gather links to pdf files
     links = [link.get('href') for link in soup.findAll('a', attrs={'href': re.compile("^https?://.*\\.pdf$")})]
     return links
 
@@ -105,9 +110,8 @@ def extract_relevant_info(objective, large_string, task):
         messages = [
             {"role": "system", "content": f"Objective: {objective}\nCurrent Task:{task}"},
             {"role": "user",
-             "content": f"Analyze the following text and extract information relevant to our objective and current task, and only information relevant to our objective and current task. If there is no relevant information do not say that there is no relevant information related to our objective. ### Then, update or start our notes provided here (keep blank if currently blank): {notes}.### Text to analyze: {chunk}.### Updated Notes:"}
+             "content": f"Analyze the following text and extract information relevant to our objective and current task, and only information relevant to our objective and current task. If there is no relevant information related to our objective, say nothing. ### Then, update or start our notes provided here (keep blank if currently blank): {notes}.### Text to analyze: {chunk}.### Updated Notes:"}
         ]
-        # todo replace with better api call
         response = openai.ChatCompletion.create(
             model="gpt-3.5-turbo-16k",
             messages=messages,

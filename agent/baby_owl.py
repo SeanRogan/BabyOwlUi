@@ -7,6 +7,39 @@ from serpapi import GoogleSearch
 from agent.tools.web_scrape_tool import web_search_tool
 
 
+def convert_task_to_search_query(task):
+    result = {}
+    system_content_prompt = "You are an expert at SEO and the use of internet search engines. Your job is to review a task and form the ideal google search query in order to complete the task. EXAMPLE: {\'example task\': \'Search for recently published papers related to the study of nuclear physics.\', \'example output\' : \'nuclear physics AND recently published AND peer reviewed OR scientific papers\'"
+    user_content_prompt = f'{task}'
+    converted = False
+    call_attempts = 0
+    while converted and call_attempts <= 5:
+        try:
+            response = openai.ChatCompletion.create(
+                model="gpt-3.5-turbo",
+                messages=[
+                    {
+                        "role": "system",
+                        "content": system_content_prompt
+                    },
+                    {
+                        "role": "user",
+                        "content": user_content_prompt
+                    }
+                ],
+                max_tokens=600,
+                n=1,
+                stop="###",
+                temperature=0.5,
+            )
+            converted = True
+            result = response["choices"][0]["message"]["content"]
+        except ConnectionError:
+            call_attempts += 1
+
+    return result
+
+
 class BabyOwlAgent:
     OBJECTIVE = ''
     openai_api_key = ''
@@ -88,31 +121,6 @@ class BabyOwlAgent:
         self.task_list = task_list
         return task_list
 
-    def convert_task_to_search_query(self, task):
-        # todo llm call to convert task to search query
-        system_content_prompt = "You are an expert at SEO and the use of internet search engines. Your job is to review a task and form the ideal google search query in order to complete the task. EXAMPLE: {\'example task\': \'Search for recently published papers related to the study of nuclear physics.\', \'example output\' : \'nuclear physics AND recently published AND peer reviewed OR scientific papers\'"
-        user_content_prompt = f'{task}'
-
-        response = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo",
-            messages=[
-                {
-                    "role": "system",
-                    "content": system_content_prompt
-                },
-                {
-                    "role": "user",
-                    "content": user_content_prompt
-                }
-            ],
-            max_tokens=600,
-            n=1,
-            stop="###",
-            temperature=0.5,
-        )
-        result = response["choices"][0]["message"]["content"]
-        return result
-
     def execute_task(self, task: dict):
         OBJECTIVE = self.OBJECTIVE
         task_list = self.task_list
@@ -165,7 +173,7 @@ class BabyOwlAgent:
             )
             task_output = task_output["choices"][0]["message"]["content"]
         elif task["tool"] == "web-search":
-            task_query = self.convert_task_to_search_query(str(task['task']))
+            task_query = convert_task_to_search_query(str(task['task']))
             task_output = web_search_tool(task_query, self)
         # Find task index in the task_list
         for i, t in enumerate(task_list):
@@ -205,12 +213,18 @@ class BabyOwlAgent:
         for t in self.task_list:
             dependent_task = ''
             if t['dependent_task_ids']:
-                dependent_task = f"*****<dependencies: {', '.join([f'#{dep_id}' for dep_id in t['dependent_task_ids']])}>*****"
-            string = f"{t['id']}: {t['task']}{t['status']}{t['tool']}{dependent_task}\n"
+                dependent_task = f"<dependencies: {', '.join([f'#{dep_id}' for dep_id in t['dependent_task_ids']])}>"
+            string = f"{t['id']}: {t['task']} [{t['status']}]::[{t['tool']}]<{dependent_task}>\n"
             output += string
         return output
 
-    # for testing the agent
+    # ##############################################################################################################
+    # ##############################################################################################################
+    # ##############################################################################################################
+    # \/ for testing the agent \/
+    # ##############################################################################################################
+    # ##############################################################################################################
+    # ##############################################################################################################
     def fly(self):
         print("\033[96m\033[1m" + "\n*****HOO HOO... How may I help you?*****\n" + "\033[0m\033[0m")
         OBJECTIVE = "Find me three recent peer reviewed research papers on the subject of nuclear fusion, describe the findings in the papers, and include a direct quote with a properly formatted citation from each paper."

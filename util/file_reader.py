@@ -15,7 +15,7 @@ ef = embedding_functions.OpenAIEmbeddingFunction(
                 model_name="text-embedding-ada-002"
             )
 vdb = chromadb.Client(Settings(chroma_db_impl="duckdb+parquet", persist_directory="../stored_files/chroma"))
-# add user session id to document/collection metadata once implemented
+# todo add user session id to document/collection metadata once implemented
 collection = vdb.get_or_create_collection(name="uploaded_documents", embedding_function=ef)
 
 
@@ -39,7 +39,6 @@ def read_pdf(file):
         return pdf
     except RuntimeWarning as err:
         print('There was a problem reading the file' + str(err))
-# vectorize and send to vector db
 
 
 def read_txt_file(file):
@@ -50,7 +49,6 @@ def read_txt_file(file):
         f.write(text)
     collection.add(documents=text, ids=file.name)
     return text
-    # vectorize and send to vector db
 
 
 def read_docx_file(file):

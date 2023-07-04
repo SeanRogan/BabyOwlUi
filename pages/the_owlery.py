@@ -16,13 +16,13 @@ st.set_page_config(
 
 
 storage_dir = os.path.dirname(os.path.curdir) + 'stored_files/'
-ef = embedding_functions.OpenAIEmbeddingFunction(
-                api_key="YOUR_API_KEY",
-                model_name="text-embedding-ada-002"
-            )
-chroma = chromadb.Client(Settings(chroma_db_impl="duckdb+parquet", persist_directory="../stored_files/chroma"))
-# todo add user session id to document/collection metadata once implemented
-vdb = chroma.get_or_create_collection(name="uploaded_documents", embedding_function=ef)
+# ef = embedding_functions.OpenAIEmbeddingFunction(
+#                 api_key="YOUR_API_KEY",
+#                 model_name="text-embedding-ada-002"
+#             )
+# chroma = chromadb.Client(Settings(chroma_db_impl="duckdb+parquet", persist_directory="../stored_files/chroma"))
+# # todo add user session id to document/collection metadata once implemented
+# vdb = chroma.get_or_create_collection(name="uploaded_documents", embedding_function=ef)
 
 
 def start_agent(agent: BabyOwlAgent):
@@ -43,8 +43,7 @@ def start_agent(agent: BabyOwlAgent):
             summary_report.append(task_info_msg)
             task_output = agent.execute_task(task)
             summary_report.append(task_output)
-            vdb.query()
-            vdb.add(ids=f'', metadatas={'task': task['task'], 'goal': agent.OBJECTIVE}, documents=task_output)
+            # vdb.add(ids=f'', metadatas={'task': task['task'], 'goal': agent.OBJECTIVE}, documents=task_output)
             st.write(task_output)
             tasks_completed.append(task)
             # todo there need to be a summary formatting func to make the report look better.

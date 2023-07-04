@@ -15,7 +15,7 @@ st.set_page_config(
 )
 
 
-storage_dir = os.path.dirname(os.path.curdir) + 'stored_files/'
+storage_dir = '../stored_files/'
 ef = embedding_functions.OpenAIEmbeddingFunction(
                 api_key="YOUR_API_KEY",
                 model_name="text-embedding-ada-002"

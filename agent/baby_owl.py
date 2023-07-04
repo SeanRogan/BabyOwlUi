@@ -212,8 +212,8 @@ class BabyOwlAgent:
         for t in self.task_list:
             dependent_task = ''
             if t['dependent_task_ids']:
-                dependent_task = f"<dependencies: {', '.join([f'#{dep_id}' for dep_id in t['dependent_task_ids']])}>"
-            string = f"{t['id']}: {t['task']} [{t['status']}]::[{t['tool']}]<{dependent_task}>\n"
+                dependent_task = f"<<dependencies: {', '.join([f'#{dep_id}' for dep_id in t['dependent_task_ids']])}>>"
+            string = f"{t['id']}: {t['task']} [{t['status']}]::[{t['tool']}]{dependent_task}\n"
             output += string
         return output
 

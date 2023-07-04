@@ -144,7 +144,6 @@ class BabyOwlAgent:
                 for dependent_task_id in task["dependent_task_ids"]:  # loop through their ids
                     dependent_task_output = self.get_task_by_id(dependent_task_id)[
                         "output"]  # find the tasks output and save it
-                    # todo need a section to clean the links out of dependent task outputs, webscrapes always have like 1000 tokens worth of links the llm cant use
                     print(dependent_task_output)
                     # dependent_task_output = dependent_task_output[0:4000]  # clip it to size
                     dependent_tasks_output += f"{dependent_task_output}"  # append the dependency task outputs together

@@ -8,15 +8,13 @@ from chromadb import Settings
 from chromadb.utils import embedding_functions
 from docx import document as docx
 
-storage_dir = os.path.dirname(os.path.curdir) + 'stored_files/'
-
 ef = embedding_functions.OpenAIEmbeddingFunction(
                 api_key="YOUR_API_KEY",
                 model_name="text-embedding-ada-002"
             )
-vdb = chromadb.Client(Settings(chroma_db_impl="duckdb+parquet", persist_directory="../stored_files/chroma"))
+chroma = chromadb.Client(Settings(chroma_db_impl="duckdb+parquet", persist_directory="../stored_files/chroma"))
+vdb = chroma.get_or_create_collection(name="uploaded_documents", embedding_function=ef)
 # todo add user session id to document/collection metadata once implemented
-collection = vdb.get_or_create_collection(name="uploaded_documents", embedding_function=ef)
 
 
 def read_pdf_with_pypdf2(file):

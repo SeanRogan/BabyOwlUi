@@ -1,7 +1,11 @@
-import streamlit as st
-import util.datastore as store
-from agent.baby_owl import BabyOwlAgent
 import os
+
+import chromadb
+import streamlit as st
+from chromadb import Settings
+from chromadb.utils import embedding_functions
+
+from agent.baby_owl import BabyOwlAgent
 
 st.set_page_config(
     page_title="The Owlery",
@@ -10,7 +14,15 @@ st.set_page_config(
     initial_sidebar_state="auto"
 )
 
+
 storage_dir = os.path.dirname(os.path.curdir) + 'stored_files/'
+ef = embedding_functions.OpenAIEmbeddingFunction(
+                api_key="YOUR_API_KEY",
+                model_name="text-embedding-ada-002"
+            )
+chroma = chromadb.Client(Settings(chroma_db_impl="duckdb+parquet", persist_directory="../stored_files/chroma"))
+# todo add user session id to document/collection metadata once implemented
+vdb = chroma.get_or_create_collection(name="uploaded_documents", embedding_function=ef)
 
 
 def start_agent(agent: BabyOwlAgent):
@@ -31,6 +43,8 @@ def start_agent(agent: BabyOwlAgent):
             summary_report.append(task_info_msg)
             task_output = agent.execute_task(task)
             summary_report.append(task_output)
+            vdb.query()
+            vdb.add(ids=f'', metadatas={'task': task['task'], 'goal': agent.OBJECTIVE}, documents=task_output)
             st.write(task_output)
             tasks_completed.append(task)
             # todo there need to be a summary formatting func to make the report look better.
@@ -46,7 +60,7 @@ st.header("An autonomous research assistant to help with the boring bits")
 st.warning("Disclaimer: This is an experimental project, development is still in progress. Behavior may be unexpected, or the program may break entirely. Use at your own risk.")
 
 st.subheader("Enter Your Research Goal Below:")
-st.write('Describe the research you\'d like the owl to do for you. Remember, the owl is just a baby, so be as exact as you can. For example, you might say: \n\n\'research the topic of nuclear fusion advancements in the last 5 years. Collect at least 5 research papers related to the subject of nuclear fusion, summarize them and return a report on the findings of the papers, with citations for each one.\'\n\n When the Owl is finished you will have the option to download its findings as a text file.\n\n The owl currently only flies one mission at a time')
+st.write('Describe the research you\'d like the owl to do for you. Remember, the owl is just a baby, so be as exact as you can. For example, you might say: \n\n\'research the topic of nuclear fusion advancements in the last 5 years. Collect at least 5 research papers related to the subject of nuclear fusion, summarize them and return a report on the findings of the papers, with citations for each one.\'\n\n When the Owl is finished you will have the option to download its findings as a text file.')
 research_topic = st.text_input(label='user_input', label_visibility='hidden', key='research_goal_input_field')
 
 # button for submit

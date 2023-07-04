@@ -20,11 +20,7 @@ def main():
     st.write("https://github.com/yoheinakajima/babyagi/tree/main")
     st.write("This project aims to build\
      upon the autonomous agent pattern, to create a research assistant that can\
-     autonomously seek out and collect research papers and discuss its findings.\
-     You can also upload your own collection of resources and documents and ask questions about them or \
-     ask the agent to do an analysis for you. BabyOwlAGI remembers your conversation\
-     better than chatGPT, and has a long term memory, allowing you to\
-     ask questions about documents and research done in previous sessions.")
+     autonomously seek out and collect research papers and create a report of what it learned.\n\nComing Soon: future versions will have new features like session memory, discussing the owls findings with it, and uploading your own documents for the owl to analyze.")
 
     # email sign up
     with st.container():

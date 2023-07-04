@@ -10,17 +10,12 @@ st.set_page_config(
 # create session state if it doesn't exist
 if 'session_state' not in st.session_state:
     st.session_state['session_state'] = {}
-# # add blank serp api key to session state before user provides key.
-# if 'serp_api_key' not in st.session_state:
-#     st.session_state['session_state']['serp_api_key'] = ''
-# if 'openai_api_key' not in st.session_state:
-#     st.session_state['session_state']['openai_api_key'] = ''
 # --- set api keys---
 st.title("Settings")
 st.info("Keys are only stored during the length of your session. For security and privacy reasons, we do not persistently store your API keys. Refreshing or exiting the window will delete your keys.")
 st.subheader("Enter your API keys and choose your language model.")
 st.write("API Keys for OpenAI and SerpAPI are required to use this service")
-st.write("If you need either key, you sign up for an account to get access using the links below:")
+st.write("If you need either key, you can sign up for an account to get access using the links below:")
 st.write("SERP API: https://serpapi.com/users/sign_up")
 st.write("OPENAI API: https://platform.openai.com/signup?launch")
 

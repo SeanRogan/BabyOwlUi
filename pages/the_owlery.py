@@ -85,7 +85,7 @@ report_path = storage_dir + f
 try:
     with open(report_path, 'rb') as file:
         data = file.read()
-        st.download_button(label='Download the Owl\'s Findings', file_name=f, data=data, disabled=state['download_disabled'])
+        st.download_button(label='Download the Owl\'s Findings', file_name=f, data=data)
 
 except FileNotFoundError:
     pass

@@ -6,7 +6,6 @@ from PyPDF2 import PdfReader, PdfWriter
 import chromadb
 from chromadb import Settings
 from chromadb.utils import embedding_functions
-from docx import document as docx
 
 storage_dir = os.path.dirname(os.path.curdir) + 'stored_files/'
 ef = embedding_functions.OpenAIEmbeddingFunction(
@@ -48,15 +47,6 @@ def read_txt_file(file):
         f.write(text)
     collection.add(documents=text, ids=file.name)
     return text
-
-
-def read_docx_file(file):
-    doc = docx.Document(file)
-    content = []
-    for paragraph in doc.paragraphs:
-        content.append(paragraph.text)
-    joined_file = '\n'.join(content)
-    # save file to file system, and vectorize and send to vector db
 
 
 # todo implement csv support

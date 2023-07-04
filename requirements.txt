@@ -1,6 +1,5 @@
 bs4
 chromadb
-docx~=0.2.4
 google-search-results
 openai
 pandas~=2.0.2

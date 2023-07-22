@@ -30,17 +30,17 @@ collection = client.get_or_create_collection(name='test')
 def create_new_collection(collection_name):
     return client.get_or_create_collection(collection_name)
 
-def add_to_vdb():
+
+def add_to_vdb(documents, embeddings=None, ids=None, metadata=None):
+    collection.add(documents, embeddings, ids, metadata)
+
+
+def vdb_query_docs():
+    collection.query()
+
+
+def vdb_get_docs(ids=None, documents=None, metadata=None):
     pass
-
-
-def vdb_query():
-    pass
-
-
-def vdb_get(collection: str, ids=None, documents=None, metadata=None):
-    pass
-
 #
 # Querying a Collection
 # Chroma collections can be queried in a variety of ways, using the .query method.

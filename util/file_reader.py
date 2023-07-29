@@ -1,8 +1,8 @@
 import os
 from io import StringIO
 
+import PyPDF2
 import pandas as pd
-from PyPDF2 import PdfReader, PdfWriter
 # import chromadb
 # from chromadb import Settings
 # from chromadb.utils import embedding_functions
@@ -18,8 +18,8 @@ storage_dir = os.path.dirname(os.path.curdir) + 'stored_files/'
 
 
 def read_pdf_with_pypdf2(file):
-    reader = PdfReader(file)
-    writer = PdfWriter()
+    reader = PyPDF2.PdfReader(file)
+    writer = PyPDF2.PdfWriter()
     text = ''
     for page in reader.pages:
         writer.add_page(page)

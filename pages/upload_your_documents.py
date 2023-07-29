@@ -33,7 +33,7 @@ with col1:
                 file = fr.read_pdf(upload)
 
 with col2:
-    storage_dir = os.path.dirname(os.path.curdir) + '/stored_files'
+    storage_dir = '/stored_files'
     st.header('Your uploaded files will appear here')
     files = [f for f in os.listdir(storage_dir) if os.path.isfile(os.path.join(storage_dir, f))]
     if files is not None:

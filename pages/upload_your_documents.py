@@ -2,7 +2,6 @@ import os
 
 import streamlit as st
 import util.file_reader as fr
-
 # need a file upload section and a section to show what files have been uploaded already.
 st.set_page_config(
     page_title='Upload Your Documents',

@@ -3,9 +3,9 @@ from io import StringIO
 
 import pandas as pd
 from PyPDF2 import PdfReader, PdfWriter
-import chromadb
-from chromadb import Settings
-from chromadb.utils import embedding_functions
+# import chromadb
+# from chromadb import Settings
+# from chromadb.utils import embedding_functions
 
 storage_dir = os.path.dirname(os.path.curdir) + 'stored_files/'
 # ef = embedding_functions.OpenAIEmbeddingFunction(

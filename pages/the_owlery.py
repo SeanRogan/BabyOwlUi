@@ -1,9 +1,9 @@
 import os
-
-import chromadb
 import streamlit as st
-from chromadb import Settings
-from chromadb.utils import embedding_functions
+#
+# import chromadb
+# from chromadb import Settings
+# from chromadb.utils import embedding_functions
 
 from agent.baby_owl import BabyOwlAgent
 
@@ -16,13 +16,13 @@ st.set_page_config(
 
 
 storage_dir = '../stored_files/'
-ef = embedding_functions.OpenAIEmbeddingFunction(
-                api_key="YOUR_API_KEY",
-                model_name="text-embedding-ada-002"
-            )
-chroma = chromadb.Client(Settings(chroma_db_impl="duckdb+parquet", persist_directory="../stored_files/chroma"))
+# ef = embedding_functions.OpenAIEmbeddingFunction(
+#                 api_key="YOUR_API_KEY",
+#                 model_name="text-embedding-ada-002"
+#            )
+# chroma = chromadb.Client(Settings(chroma_db_impl="duckdb+parquet", persist_directory="../stored_files/chroma"))
 # todo add user session id to document/collection metadata once implemented
-vdb = chroma.get_or_create_collection(name="uploaded_documents", embedding_function=ef)
+# vdb = chroma.get_or_create_collection(name="uploaded_documents", embedding_function=ef)
 
 
 def start_agent(agent: BabyOwlAgent):

@@ -8,13 +8,13 @@ from chromadb import Settings
 from chromadb.utils import embedding_functions
 
 storage_dir = os.path.dirname(os.path.curdir) + 'stored_files/'
-ef = embedding_functions.OpenAIEmbeddingFunction(
-                api_key="YOUR_API_KEY",
-                model_name="text-embedding-ada-002"
-            )
-chroma = chromadb.Client(Settings(chroma_db_impl="duckdb+parquet", persist_directory="../stored_files/chroma"))
-collection = chroma.get_or_create_collection(name="uploaded_documents", embedding_function=ef)
-# todo add user session id to document/collection metadata once implemented
+# ef = embedding_functions.OpenAIEmbeddingFunction(
+#                 api_key="YOUR_API_KEY",
+#                 model_name="text-embedding-ada-002"
+#             )
+# chroma = chromadb.Client(Settings(chroma_db_impl="duckdb+parquet", persist_directory="../stored_files/chroma"))
+# collection = chroma.get_or_create_collection(name="uploaded_documents", embedding_function=ef)
+# # todo add user session id to document/collection metadata once implemented
 
 
 def read_pdf_with_pypdf2(file):
@@ -27,7 +27,7 @@ def read_pdf_with_pypdf2(file):
     output_file_path = os.path.join(storage_dir + file.name)
     with open(output_file_path, 'wb') as file:
         writer.write(file)
-    collection.add(ids=file.name, documents=text)
+    # collection.add(ids=file.name, documents=text)
     return text
 
 
@@ -45,7 +45,7 @@ def read_txt_file(file):
     text = sio.read()
     with open(storage_dir + file.name, 'w') as f:
         f.write(text)
-    collection.add(documents=text, ids=file.name)
+    # collection.add(documents=text, ids=file.name)
     return text
 
 

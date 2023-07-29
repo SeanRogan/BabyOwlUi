@@ -1,5 +1,5 @@
-import chromadb
-from chromadb.config import Settings
+# import chromadb
+# from chromadb.config import Settings
 
 
 # section for relational db, and section for vector db specific functions
@@ -23,23 +23,23 @@ def validate_login(username, password):
 
 
 # ----------- vector --------------
-client = chromadb.Client(Settings(chroma_db_impl="duckdb+parquet", persist_directory="../stored_files/chroma"))
-collection = client.get_or_create_collection(name='test')
+# client = chromadb.Client(Settings(chroma_db_impl="duckdb+parquet", persist_directory="../stored_files/chroma"))
+# collection = client.get_or_create_collection(name='test')
 
-
-def create_new_collection(collection_name):
-    return client.get_or_create_collection(collection_name)
-
-def add_to_vdb():
-    pass
-
-
-def vdb_query():
-    pass
-
-
-def vdb_get(collection: str, ids=None, documents=None, metadata=None):
-    pass
+#
+# def create_new_collection(collection_name):
+#     return client.get_or_create_collection(collection_name)
+#
+# def add_to_vdb():
+#     pass
+#
+#
+# def vdb_query():
+#     pass
+#
+#
+# def vdb_get(collection: str, ids=None, documents=None, metadata=None):
+#     pass
 
 #
 # Querying a Collection

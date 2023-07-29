@@ -2,8 +2,6 @@ import os
 
 import streamlit as st
 import util.file_reader as fr
-import path
-import sys
 
 # need a file upload section and a section to show what files have been uploaded already.
 st.set_page_config(
@@ -12,9 +10,6 @@ st.set_page_config(
     layout='wide',
     initial_sidebar_state='auto'
 )
-#
-# directory = path.Path(__file__).abspath()
-# sys.path.append(directory.parent.parent)
 
 st.title('Give the owl something to read!')
 col1, col2 = st.columns(2)

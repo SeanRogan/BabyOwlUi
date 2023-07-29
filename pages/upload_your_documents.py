@@ -34,12 +34,12 @@ with col1:
                 file = fr.read_pdf(upload)
 
 with col2:
-    storage_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), '/stored_files')
+    storage_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'stored_files')
     st.header('Your uploaded files will appear here')
     files = [f for f in os.listdir(storage_dir) if os.path.isfile(os.path.join(storage_dir, f))]
     if files is not None:
         for f in files:
             st.write(f)
             # download files button
-            # with open(storage_dir + f, 'rb') as opened_file:
-            #     st.download_button(label=f'Download File: {f}', file_name=f, data=opened_file)
+            with open(storage_dir + f, 'rb') as opened_file:
+                st.download_button(label=f'Download File: {f}', file_name=f, data=opened_file)

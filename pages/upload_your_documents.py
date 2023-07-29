@@ -39,6 +39,8 @@ with col2:
     if files is not None:
         for f in files:
             st.write(f)
+    else:
+        st.header("No files uploaded.")
             # download files button
             # with open(storage_dir + f, 'rb') as opened_file:
             #     st.download_button(label=f'Download File: {f}', file_name=f, data=opened_file)

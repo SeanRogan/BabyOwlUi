@@ -6,3 +6,4 @@ pandas
 pypdf2
 requests
 streamlit
+path

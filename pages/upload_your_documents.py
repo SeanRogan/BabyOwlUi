@@ -2,7 +2,8 @@ import os.path
 
 import streamlit as st
 import util.file_reader as fr
-
+import path
+import sys
 # need a file upload section and a section to show what files have been uploaded already.
 st.set_page_config(
     page_title='Upload Your Documents',
@@ -11,10 +12,8 @@ st.set_page_config(
     initial_sidebar_state='auto'
 )
 
-
-def get_all_files(directory):
-    return
-
+directory = path.Path(__file__).abspath()
+sys.path.append(directory.parent.parent)
 
 st.title('Give the owl something to read!')
 col1, col2 = st.columns(2)
@@ -34,9 +33,7 @@ with col1:
                 file = fr.read_pdf(upload)
 
 with col2:
-    storage_dir = os.pardir + '/stored_files'
-    # print(storage_dir)
-    st.header(storage_dir)
+    storage_dir = os.path.dirname(os.path.curdir) + '/stored_files'
     st.header('Your uploaded files will appear here')
     files = [f for f in os.listdir(storage_dir) if os.path.isfile(os.path.join(storage_dir, f))]
     if files is not None:

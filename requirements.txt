@@ -2,8 +2,8 @@ bs4
 chromadb
 google-search-results
 openai
-pandas~=2.0.2
-pypdf2~=3.0.1
+pandas
+pypdf2
 requests
-streamlit~=1.23.1
+streamlit
 path

@@ -1,4 +1,4 @@
-import os.path
+import os
 
 import streamlit as st
 import util.file_reader as fr

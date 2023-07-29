@@ -36,6 +36,7 @@ with col1:
 with col2:
     storage_dir = os.pardir + '/stored_files'
     # print(storage_dir)
+    st.header(storage_dir)
     st.header('Your uploaded files will appear here')
     files = [f for f in os.listdir(storage_dir) if os.path.isfile(os.path.join(storage_dir, f))]
     if files is not None:

@@ -12,8 +12,8 @@ st.set_page_config(
     initial_sidebar_state='auto'
 )
 
-directory = path.Path(__file__).abspath()
-sys.path.append(directory.parent.parent)
+# directory = path.Path(__file__).abspath()
+# sys.path.append(directory.parent.parent)
 
 st.title('Give the owl something to read!')
 col1, col2 = st.columns(2)

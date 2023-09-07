@@ -1,13 +1,15 @@
 import os
 from io import StringIO
 
-import PyPDF2
 import pandas as pd
+from PyPDF2 import PdfReader, PdfWriter
+
 # import chromadb
 # from chromadb import Settings
 # from chromadb.utils import embedding_functions
-
-storage_dir = os.path.dirname(os.path.curdir) + 'stored_files/'
+storage_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'stored_files/')
+storage_dir = '*/pages/stored_files/'
+# storage_dir = os.path.dirname(os.path.curdir) + 'stored_files/'
 # ef = embedding_functions.OpenAIEmbeddingFunction(
 #                 api_key="YOUR_API_KEY",
 #                 model_name="text-embedding-ada-002"
@@ -18,14 +20,15 @@ storage_dir = os.path.dirname(os.path.curdir) + 'stored_files/'
 
 
 def read_pdf_with_pypdf2(file):
-    reader = PyPDF2.PdfReader(file)
-    writer = PyPDF2.PdfWriter()
+    reader = PdfReader(file)
+    writer = PdfWriter()
     text = ''
     for page in reader.pages:
         writer.add_page(page)
         text += page.extract_text() + ' '
     output_file_path = os.path.join(storage_dir + file.name)
-    with open(output_file_path, 'wb') as file:
+    print(output_file_path)
+    with open(output_file_path, 'rb') as file:
         writer.write(file)
     # collection.add(ids=file.name, documents=text)
     return text
@@ -35,7 +38,7 @@ def read_pdf(file):
     try:
         pdf = read_pdf_with_pypdf2(file)
         return pdf
-    except RuntimeWarning as err:
+    except FileNotFoundError as err:
         print('There was a problem reading the file' + str(err))
 
 

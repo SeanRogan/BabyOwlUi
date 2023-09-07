@@ -1,7 +1,6 @@
 import streamlit as st
-import util.datastore as store
-import time
 
+import util.datastore as store
 
 st.set_page_config(
     page_title="Baby Owl",

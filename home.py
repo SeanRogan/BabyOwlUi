@@ -1,6 +1,6 @@
 import streamlit as st
 
-import util.datastore as store
+# import util.datastore as store
 
 st.set_page_config(
     page_title="Baby Owl",
@@ -33,14 +33,14 @@ def main():
         if st.button(label='Submit Email'):
             # input for email
             result = email.title()
-            store.save_email_to_rdb(result)
+            # store.save_email_to_rdb(result)
 
     with st.container():
         txt = st.text_area("Leave a comment.", "In this section you can enter\
          your feature requests, bug reports, or hate mail 🙃")
         if st.button(label='Submit Comment'):
             result = txt.title()
-            store.save_comment_to_rdb(result)
+            # store.save_comment_to_rdb(result)
                 
                 
 if __name__ == '__main__':

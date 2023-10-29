@@ -1,3 +1,4 @@
+import io
 import os
 import streamlit as st
 #
@@ -65,27 +66,34 @@ research_topic = st.text_input(label='user_input', label_visibility='hidden', ke
 # button for submit
 if st.button(label='Submit', key='research_goal_submit_btn'):
     if research_topic is not None and research_topic != '':
-        if os.path.exists(storage_dir + 'report.txt'):
-            os.remove(storage_dir + 'report.txt')
+        # if os.path.exists(storage_dir + 'report.txt'):
+        #     os.remove(storage_dir + 'report.txt')
         report = ''
         if 'openai_api_key' not in state or 'serp_api_key' not in state:
             st.warning('Please enter your API keys in the settings window to use the agent.')
         else:
             owl = BabyOwlAgent(state['openai_api_key'], state['serp_api_key'], research_topic)
             report = start_agent(owl)
-        try:
-            with open(storage_dir + 'report.txt', 'x') as file:
-                file.write(str(report))
-        except FileNotFoundError:
-            pass
+        # try:
+        #     #this needs to change
+        #     with open(storage_dir + 'report.txt', 'x') as file:
+        #         file.write(str(report))
+        # except FileNotFoundError:
+        #     pass
+        report_buffer = io.BytesIO()
+        report_buffer.write(str(report).encode())
     else:
         st.write('Please enter a topic for the owl to research for you.')
 f = 'report.txt'
-report_path = storage_dir + f
-try:
-    with open(report_path, 'rb') as file:
-        data = file.read()
-        st.download_button(label='Download the Owl\'s Findings', file_name=f, data=data)
-
-except FileNotFoundError:
-    pass
+if 'report_buffer' in locals():
+    report_buffer.seek(0)
+    st.download_button(label='Download the Owl\'s Findings', file_name='owl report.txt', data=report_buffer.getvalue())
+## this needs to change
+# report_path = storage_dir + f
+# try:
+#     with open(report_path, 'rb') as file:
+#         data = file.read()
+#         st.download_button(label='Download the Owl\'s Findings', file_name=f, data=data)
+#
+# except FileNotFoundError:
+#     pass
